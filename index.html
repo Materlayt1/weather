@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            border: none;
+            border-bottom: 2px solid #fbb034;
+            width: 400px;
+            padding: 10px;
+            background:transparent;
+            color: #ffff;
+            font-size: 25px;
+
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: url(https://avatars.mds.yandex.net/i?id=32b0aa98c50f43371feb954134397079b20751c9-8497167-images-thumbs&n=13);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            
+        
+            height: 100vh;
+           color: #ffff;
+           
+            font-family:'Times New Roman', Times, serif;
+            text-transform: uppercase;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .container {
+            position: absolute;
+            top: 40%;
+            left: 38%;
+           
+        }
+        .city{
+            font-size: 50px;
+            padding: 2px;
+        }
+        .temp{
+            font-size: 35px;
+            padding: 7px;
+        }
+        .desc{
+            font-size: 30px;
+            padding: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 style="color: #fbb034; font-size: 55px;">HAVA DURUMU</h1>
+        <input type="text" value="">
+
+        <div class="city"></div>
+        <div class="temp"></div>
+        <div class="desc"></div>
+    </div>
+    <script>
+        const url = 'https://api.openweathermap.org/data/2.5/';
+        const key = 'fde76abe4684d0020dcfb4e440024bdb';
+        const inputValue = document.querySelector("input");
+
+        const setQuery = (e) => {
+
+            if (e.keyCode == '13')
+                getResult(inputValue.value);
+
+        };
+
+        const getResult = (name) => {
+            let query = `${url}weather?q=${name}&appid=${key}&units=metric&lang=tr`
+            fetch(query).then(weather => {
+                return weather.json()
+            }).then(displayR)
+
+        };
+        inputValue.addEventListener("keypress", setQuery);
+
+        const displayR = (result) => {
+
+            console.log(result)
+            let city = document.querySelector(".city")
+            city.innerText = `${result.name}`;
+            let temp = document.querySelector(".temp")
+            temp.innerText = `${Math.round(result.main.temp)} C`
+            let desc = document.querySelector(".desc");
+            desc.innerText = `${result.weather[0].description}`;
+        };
+
+    </script>
+
+</body>
+
+</html>
